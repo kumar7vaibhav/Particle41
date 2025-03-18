@@ -24,20 +24,6 @@ resource "azurerm_virtual_network" "vnet" {
   }
 }
 
-# Create Route Table
-resource "azurerm_route_table" "rt" {
-  name                = "${var.vnet_name}-rt"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  tags                = var.tags
-
-  route {
-    name                   = "internet"
-    address_prefix         = "10.0.3.0/24"
-    next_hop_type         = "Internet"
-  }
-}
-
 # Create Subnets
 resource "azurerm_subnet" "subnet" {
   for_each = { for subnet in var.subnets : subnet.name => subnet }

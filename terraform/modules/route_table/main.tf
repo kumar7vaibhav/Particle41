@@ -19,9 +19,10 @@ resource "azurerm_route_table" "rt" {
   tags                = var.tags
 
   route {
-    name                   = "kubenetRoute"
-    address_prefix         = "10.0.3.0/24"
-    next_hop_type          = "None"
+    name                   = "defaultRoute"
+    address_prefix         = "0.0.0.0/0"
+    next_hop_type          = "Internet"
+    next_hop_in_ip_address = null
   }
 
   lifecycle {
@@ -37,4 +38,11 @@ resource "azurerm_subnet_route_table_association" "subnet_association" {
 
   subnet_id      = "/subscriptions/${each.value.subscription_id}/resourceGroups/${each.value.resource_group_name}/providers/Microsoft.Network/virtualNetworks/${each.value.virtual_network_name}/subnets/${each.key}"
   route_table_id = azurerm_route_table.rt.id
+
+  lifecycle {
+    ignore_changes = [
+      subnet_id,
+      route_table_id
+    ]
+  }
 }
