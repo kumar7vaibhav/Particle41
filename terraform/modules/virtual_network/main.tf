@@ -23,7 +23,7 @@ resource "azurerm_virtual_network" "vnet" {
     ]
   }
 }
-/*
+
 # Create Route Table
 resource "azurerm_route_table" "rt" {
   name                = "${var.vnet_name}-rt"
@@ -33,11 +33,10 @@ resource "azurerm_route_table" "rt" {
 
   route {
     name                   = "internet"
-    address_prefix         = "0.0.0.0/0"
+    address_prefix         = "10.0.3.0/24"
     next_hop_type         = "Internet"
   }
 }
-*/
 
 # Create Subnets
 resource "azurerm_subnet" "subnet" {
@@ -50,9 +49,4 @@ resource "azurerm_subnet" "subnet" {
   private_endpoint_network_policies              = each.value.private_endpoint_network_policies
   private_link_service_network_policies_enabled  = each.value.private_link_service_network_policies_enabled
 
-  lifecycle {
-    ignore_changes = [
-      route_table_id
-    ]
-  }
 }
