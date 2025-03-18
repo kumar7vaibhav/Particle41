@@ -11,3 +11,4 @@ Using Terraform, create the following infrastructure in AWS (or equivalent):
 ---
 
 # Solution:
+![](chart.png)
